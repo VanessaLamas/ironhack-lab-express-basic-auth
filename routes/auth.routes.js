@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+
 // encryption
 const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
@@ -15,6 +16,7 @@ const User = require("../models/User.model");
 // require the middlewares of the session
 const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
+
 
 // GET /auth/signup and POST /auth/signup
 router.get("/signup", isLoggedOut, (req, res) => {

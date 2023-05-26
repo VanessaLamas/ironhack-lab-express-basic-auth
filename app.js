@@ -8,8 +8,10 @@ require('./db');
 // Handles http requests (express is node js framework)
 // https://www.npmjs.com/package/express
 const hbs = require("hbs");
+
 const express = require('express');
 const app = express();
+
 
 // Handles the handlebars
 // https://www.npmjs.com/package/hbs
