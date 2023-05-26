@@ -80,11 +80,11 @@ router.post("/login", isLoggedOut, (req, res, next) => {
     return;
   }
   // here we use the same logic as in account creation for the password
-  // if (password.length < 6) {
-  //   return res.status(400).render("user/login", {
-  //     errorMessage: "Your password needs to be at least 6 characters long.",
-  //   });
-  // }
+  if (password.length < 6) {
+    return res.status(400).render("user/login", {
+      errorMessage: "Your password needs to be at least 6 characters long.",
+    });
+  }
   // search the database for a user with the username submitted in the form
   User.findOne({ username })
     .then((user) => {
