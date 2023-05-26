@@ -11,5 +11,9 @@ router.get('/main', isLoggedIn, (req,res,next) => {
   res.render('main');
 })
 
+router.get('/private', isLoggedIn, (req,res,next) => {
+  res.render('private');
+})
+
 module.exports = router;
 
