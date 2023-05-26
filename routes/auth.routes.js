@@ -17,11 +17,11 @@ const isLoggedOut = require("../middleware/isLoggedOut");
 const isLoggedIn = require("../middleware/isLoggedIn");
 
 // GET /auth/signup and POST /auth/signup
-router.get("/signup", (req, res) => {
+router.get("/signup", isLoggedOut, (req, res) => {
   res.render("user/register");
 });
 
-router.post("/signup", (req, res) => {
+router.post("/signup", isLoggedOut, (req, res) => {
   const { username, password } = req.body;
   // all the fields of my account creation are obligatory
   if (username === "" || password === "") {
@@ -63,13 +63,11 @@ router.post("/signup", (req, res) => {
     });
 });
 
-
-
 // GET /auth/login and POST /auth/login
-router.get("/login",  (req, res) => {
+router.get("/login", isLoggedOut, (req, res) => {
   res.render("user/login");
 });
-router.post("/login",  (req, res, next) => {
+router.post("/login", isLoggedOut, (req, res, next) => {
   const { username, password } = req.body;
   // check that username and password are provided
   if (username === "" || password === "") {
@@ -80,11 +78,11 @@ router.post("/login",  (req, res, next) => {
     return;
   }
   // here we use the same logic as in account creation for the password
-  if (password.length < 6) {
-    return res.status(400).render("user/login", {
-      errorMessage: "Your password needs to be at least 6 characters long.",
-    });
-  }
+  // if (password.length < 6) {
+  //   return res.status(400).render("user/login", {
+  //     errorMessage: "Your password needs to be at least 6 characters long.",
+  //   });
+  // }
   // search the database for a user with the username submitted in the form
   User.findOne({ username })
     .then((user) => {
@@ -119,14 +117,14 @@ router.post("/login",  (req, res, next) => {
 });
 
 // GET /auth/logout
-// router.get("/logout", isLoggedIn, (req, res) => {
-//   req.session.destroy((err) => {
-//     if (err) {
-//       res.status(500).render("user/logout", { errorMessage: err.message });
-//       return;
-//     }
-//     res.redirect("/");
-//   });
-// });
+router.get("/logout", isLoggedIn, (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      res.status(500).render("user/logout", { errorMessage: err.message });
+      return;
+    }
+    res.redirect("/");
+  });
+});
 
 module.exports = router;
